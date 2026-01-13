@@ -215,6 +215,35 @@ public partial class App : Application
     }
 
     /// <summary>
+    /// メニュー項目 "スライド自動キャプチャ" がクリックされた時の処理
+    /// </summary>
+    private void MenuItem_SlideCapture_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            // 設定ウィンドウを表示
+            var slideCaptureSettings = new SlideCaptureSettingsWindow(_settings);
+            if (slideCaptureSettings.ShowDialog() != true)
+            {
+                // キャンセルされた
+                return;
+            }
+
+            // 進捗ウィンドウを表示してキャプチャ実行
+            var progressWindow = new SlideCaptureProgressWindow(slideCaptureSettings.Settings);
+            progressWindow.ShowDialog();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"スライドキャプチャ中にエラーが発生しました:\n{ex.Message}",
+                "エラー",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
     /// メニュー項目 "設定" がクリックされた時の処理
     /// </summary>
     private void MenuItem_Settings_Click(object sender, RoutedEventArgs e)
