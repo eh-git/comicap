@@ -187,4 +187,77 @@ static partial class CaptureImpl
             }
         }
     }
+
+    /// <summary>
+    /// スクリーンの指定された領域の画像を取得します
+    /// </summary>
+    /// <param name="x">キャプチャ領域の左上X座標</param>
+    /// <param name="y">キャプチャ領域の左上Y座標</param>
+    /// <param name="width">キャプチャ領域の幅</param>
+    /// <param name="height">キャプチャ領域の高さ</param>
+    /// <returns>指定領域のBitmap画像</returns>
+    /// <exception cref="ArgumentException">幅または高さが0以下の場合</exception>
+    /// <exception cref="InvalidOperationException">キャプチャに失敗した場合</exception>
+    public static Bitmap CaptureRegion(int x, int y, int width, int height)
+    {
+        if (width <= 0)
+        {
+            throw new ArgumentException("幅は1以上である必要があります", nameof(width));
+        }
+
+        if (height <= 0)
+        {
+            throw new ArgumentException("高さは1以上である必要があります", nameof(height));
+        }
+
+        IntPtr disDC = IntPtr.Zero;
+        IntPtr hDC = IntPtr.Zero;
+        Bitmap? bmp = null;
+        Graphics? g = null;
+
+        try
+        {
+            // プライマリモニタのデバイスコンテキストを取得
+            disDC = GetDC(IntPtr.Zero);
+            if (disDC == IntPtr.Zero)
+            {
+                throw new InvalidOperationException("デバイスコンテキストの取得に失敗しました");
+            }
+
+            // Bitmapの作成
+            bmp = new Bitmap(width, height);
+
+            // Graphicsの作成
+            g = Graphics.FromImage(bmp);
+            hDC = g.GetHdc();
+
+            // 指定領域の画像をBitmapにコピー
+            var result = BitBlt(hDC, 0, 0, width, height, disDC, x, y, SRCCOPY);
+            if (result == 0)
+            {
+                throw new InvalidOperationException("領域のキャプチャに失敗しました");
+            }
+
+            return bmp;
+        }
+        catch
+        {
+            bmp?.Dispose();
+            throw;
+        }
+        finally
+        {
+            // リソースの解放
+            if (hDC != IntPtr.Zero && g != null)
+            {
+                g.ReleaseHdc(hDC);
+            }
+            g?.Dispose();
+
+            if (disDC != IntPtr.Zero)
+            {
+                ReleaseDC(IntPtr.Zero, disDC);
+            }
+        }
+    }
 }

@@ -108,6 +108,57 @@ public partial class App : Application
     }
 
     /// <summary>
+    /// メニュー項目 "範囲を選択してキャプチャ" がクリックされた時の処理
+    /// </summary>
+    private void MenuItem_RegionCapture_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var regionSelector = new RegionSelectorWindow(_settings);
+            var result = regionSelector.ShowDialog();
+
+            if (result == true && regionSelector.CapturedBitmap != null)
+            {
+                // MainWindowが存在しない場合は作成
+                if (_mainWindow == null)
+                {
+                    MenuItem_Open_Click(sender, e);
+                }
+
+                // 前回のBitmapを解放
+                _lastCapturedBitmap?.Dispose();
+                _lastCapturedBitmap = regionSelector.CapturedBitmap;
+
+                // BitmapをWPFのBitmapImageに変換
+                using var stream = new MemoryStream();
+                _lastCapturedBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = stream;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze(); // UIスレッド外で使用可能にする
+
+                // MainWindowに画像を設定
+                if (_mainWindow != null)
+                {
+                    _mainWindow.CapturedImage.Source = bitmapImage;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"領域選択キャプチャ中にエラーが発生しました:\n{ex.Message}",
+                "エラー",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
     /// メニュー項目 "名前を付けて保存" がクリックされた時の処理
     /// </summary>
     private void MenuItem_SaveAs_Click(object sender, RoutedEventArgs e)
