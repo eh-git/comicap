@@ -89,6 +89,17 @@ ComiCap/
     └── Properties/                  # Assembly info and resources
 ```
 
+## Detailed Source Code Reference
+
+**IMPORTANT**: Before making any code changes, always refer to `SOURCE_STRUCTURE.md` for detailed information about:
+- Complete file-by-file code structure and member details
+- Data flow diagrams and application lifecycle
+- Technical considerations (WPF/Windows Forms interop, image processing)
+- Known limitations and improvement recommendations
+- Resource management patterns
+
+This document provides comprehensive analysis of the codebase to help you understand implementation details and avoid common pitfalls.
+
 ## Important Notes
 
 - This is a Windows-only application (requires Win32 APIs)
