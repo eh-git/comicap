@@ -13,6 +13,9 @@
                 <ContextMenu>
                     <MenuItem Header="表示(_O)" Click="MenuItem_Open_Click" />
                     <MenuItem Header="キャプチャ(_C)" Click="MenuItem_Capture_Click" />
+                    <MenuItem Header="名前を付けて保存(_S)" Click="MenuItem_SaveAs_Click" />
+                    <Separator />
+                    <MenuItem Header="設定(_T)" Click="MenuItem_Settings_Click" />
                     <Separator />
                     <MenuItem Header="終了(_X)" Click="MenuItem_Exit_Click" />
                 </ContextMenu>
