@@ -11,13 +11,13 @@
     <!-- Assembly Information -->
     <AssemblyName>ComiCap</AssemblyName>
     <RootNamespace>ComiCap</RootNamespace>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
-    <Version>2.1.0</Version>
+    <AssemblyVersion>2.2.0.0</AssemblyVersion>
+    <FileVersion>2.2.0.0</FileVersion>
+    <Version>2.2.0</Version>
 
     <!-- Product Information -->
     <Product>ComiCap</Product>
-    <Description>Windows desktop screen capture utility with save and settings features</Description>
+    <Description>Windows desktop screen capture utility with region selection, save and settings features</Description>
     <Copyright>Copyright © 2018-2026</Copyright>
     <Authors>ComiCap Contributors</Authors>
 
