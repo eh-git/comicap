@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch ComiCap (Windows)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ComiCap/bin/Debug/net8.0-windows/ComiCap.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/ComiCap",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Attach to ComiCap",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "ComiCap"
+        }
+    ]
+}
